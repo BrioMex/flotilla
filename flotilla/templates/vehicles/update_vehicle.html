@@ -1,0 +1,21 @@
+{% extends 'vehicles/base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    {% if user == vehicle.owner %}
+        <center>
+            <h1> Update {{vehicle}}</h1>
+            <form action="" method=POST>
+                {% csrf_token %}
+                {{form.as_p}}
+                <input type="submit" value="Update" class= "btn btn-secondary">
+            </form>
+            <br>
+            <br>
+            <a href="{% url 'delete-vehicle' vehicle.id %}" class="btn btn-danger" role="button">Delete</a>
+        </center>
+    {% else %}
+        <h1>You have no privileges to edit this vehicle, ask {{vehicle.owner}} to assign this vehicle to your account.</h1>
+    {% endif %}
+{% endif %}
+{% endblock content %}
