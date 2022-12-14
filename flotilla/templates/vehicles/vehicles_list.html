@@ -29,6 +29,29 @@
       color: white;
     }
     </style>
+    <div id="mapid">
+      <script>
+        var mymap = L.map('mapid').setView([19.60, -99], 3);
+        var OpenStreetMap_Mapnik = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(mymap);
+      
+        
+        {% for vehicle in vehicles_list %}
+          {% if user.is_authenticated %}
+            {% if user == vehicle.owner %}
+            var lon={{vehicle.lon}}
+            var lat={{vehicle.lat}}
+            var marker = L.marker([lon, lat]).addTo(mymap);
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+      </script>
+    </div>
+    
+    
+    <br><br>
 
     <table id="Vehicles">
         <tr>
@@ -43,20 +66,17 @@
               <tr>
                 <td><a href="{% url 'update-vehicle' vehicle.id %}"> <strong>{{vehicle.owner}}</strong> </a></td>
                 <td>{{vehicle.plate}}</td>
-                <td>{{vehicle.lat}}</td>
                 <td>{{vehicle.lon}}</td>
+                <td>{{vehicle.lat}}</td>
               </tr>
           {% endif %}
         {% endif %}
         {% endfor %}
       </table>
 
-      
-<div id="mapid">
-  <script>
-    var map = L.map('map').setView([51.505, -0.09], 13);
-  </script>
-</div>
+    <br><br>
+
+
 
 
 
